@@ -6,7 +6,10 @@ SCRIPTNAME=$(echo $0 | cut -d "." -f1)
 LOGFILE=/tmp/$SCRIPTNAME-$TIMESTAMP.log
 R="\e[31m"
 G="\e[32m"
+Y="\e[33m"
 N="\e[0m"
+echo "Pleae enter DB password"
+read -s Mysql_root_password
 
 VALIDATE(){
 if [ $1 -ne 0 ]
@@ -40,10 +43,10 @@ VALIDATE $? "starting mysql server"
 
 
 #Below code will be useful for idempotent nature
-mysql -h db.swetha.store -uroot -pExpenseApp@1 -e 'show databases;' &>>$LOGFILE
+mysql -h db.swetha.store -uroot -p${Mysql_root_password} -e 'show databases;' &>>$LOGFILE
 if [ $? -ne 0 ]
 then
-    mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOGFILE
+    mysql_secure_installation --set-root-pass ${Mysql_root_password} &>>$LOGFILE
     VALIDATE $? "MySQL Root password Setup"
 else
     echo -e "MySQL Root password is already setup...$Y SKIPPING $N"
