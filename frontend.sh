@@ -44,7 +44,7 @@ VALIDATE $? "Downloading frontend code"
 
 cd /usr/share/nginx/html &>>$LOGFILE
 unzip /tmp/frontend.zip &>>$LOGFILE
-VALIDATE $? "Extracting Frontedn code"
+VALIDATE $? "Extracting Frontend code"
 
 cp /home/ec2-user/expense-shell/expense.conf /etc/nginx/default.d/expense.conf &>>$LOGFILE
 VALIDATE $? "Copied expense conf"
