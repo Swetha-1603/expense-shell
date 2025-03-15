@@ -59,5 +59,25 @@ unzip /tmp/backend.zip
 VALIDATE $? "Extracted backed code"
 
 npm install &>>$LOGFILE
-VALIDATE $? installing nodejs dependencies"
+VALIDATE $? "installing nodejs dependencies"
 
+cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service &>>$LOGFILE
+VALIDATE $? "Copied backend service"
+
+systemctl daemon-reload &>>$LOGFILE
+VALIDATE $? "Daemon reloaded"
+
+systemctl start backend &>>$LOGFILE
+VALIDATE $? "Starting backend"
+
+systemctl enable backend &>>$LOGFILE
+VALIDATE $? "Enabling backend"
+
+dnf install mysql -y &>>$LOGFILE
+VALIDATE $? "Installing Mysql"
+
+mysql -h db.swetha.store -uroot -pExpenseApp@1 < /app/schema/backend.sql &>>$LOGFILE
+VALIDATE $? "Loading schema"
+
+systemctl restart backend &>>$LOGFILE
+VALIDATE $? "Restaring backend"
