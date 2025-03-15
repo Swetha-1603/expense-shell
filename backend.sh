@@ -29,7 +29,7 @@ else
     echo "You are a root user"
 fi    
 
-dnf module diable nodejs -y &>>$LOGFILE
+dnf module disable nodejs -y &>>$LOGFILE
 VALIDATE $? "Diabling default nodejs"
 
 dnf module enable nodejs:20 -y &>>$LOGFILE
